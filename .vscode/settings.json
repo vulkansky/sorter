@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "unix_dependency.h": "c",
+        "win_dependency.h": "c",
+        "sorter.h": "c"
+    }
+}

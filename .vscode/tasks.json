@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build sorter",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "${workspaceFolder}/sorter/sorter.c",
+                "-I${workspaceFolder}/sorter",
+                "-I${workspaceFolder}/sorter/platform/Linux",
+                "${workspaceFolder}/sorter/platform/Linux/unix_dependency.c",
+                "-o",
+                "${workspaceFolder}/sorter/sorter"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
