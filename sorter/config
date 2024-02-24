@@ -1,0 +1,15 @@
+setpath:/home/kirill/Загрузки/
+setfolder:Text
+setfolder:Office
+setfolder:Images
+setformat:jpg
+setformat:docx
+setformat:doc
+setformat:xlsx
+setformat:xlsm
+setformat:pptx
+Images:jpg
+Office:docx
+Office:xlsx
+Office:xlsm
+Office:pptx
