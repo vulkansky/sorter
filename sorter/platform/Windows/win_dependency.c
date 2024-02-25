@@ -90,7 +90,7 @@ int process_files() {
 
     for (int i = 0; i < pathCount; i++) {
         char search_path[MAX_PATH];
-        sprintf(search_path, "%s\\*", path_folder[i]);
+        sprintf(search_path, "%s\\*", pathFolder[i]);
 
         if ((dir = _findfirst(search_path, &file_data)) == -1) {
             perror("Unable to open directory");
@@ -106,7 +106,7 @@ int process_files() {
 
             if (dot && dot != file_data.name) {
                 printf("File: %s, Format: %s\n", file_data.name, dot + 1);
-                check_relations(path_folder[i], file_data.name, dot + 1);
+                check_relations(pathFolder[i], file_data.name, dot + 1);
             }
             else {
                 printf("File: %s, Format: unknown\n", file_data.name);
