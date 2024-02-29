@@ -11,6 +11,8 @@
 
 #include "sorter.h"
 
+#include "logger/logger.h"
+
 #ifdef _WIN32
 #include "platform/Windows/win_dependency.h"
 #else /* UNIX */
@@ -34,7 +36,7 @@ static FILE* config_file = NULL;
 static int add_folder_to_array(const char* value)
 {
         if (NULL == value) {
-                printf("Invalid input parameter: value = %p\n", value);
+                LOG("Invalid input parameter: value = %p\n", value);
 
                 return -1;
         }
@@ -43,7 +45,7 @@ static int add_folder_to_array(const char* value)
                 strcpy(folders[foldersCount], value);
                 foldersCount++;
         } else {
-                printf("Maximum folders limit reached.\n");
+                LOG("Maximum folders limit reached.\n");
         }
 
         return 0;
@@ -52,7 +54,7 @@ static int add_folder_to_array(const char* value)
 static int add_format_to_array(const char* value)
 {
         if (NULL == value) {
-                printf("Invalid input parameter: value = %p\n", value);
+                LOG("Invalid input parameter: value = %p\n", value);
 
                 return -1;
         }
@@ -61,7 +63,7 @@ static int add_format_to_array(const char* value)
                 strcpy(formats[formatsCount], value);
                 formatsCount++;
         } else {
-                printf("Maximum folders limit reached.\n");
+                LOG("Maximum folders limit reached.\n");
         }
 
         return 0;
@@ -70,7 +72,7 @@ static int add_format_to_array(const char* value)
 static int add_path_to_array(const char* value)
 {
         if (NULL == value) {
-                printf("Invalid input parameter: value = %p\n", value);
+                LOG("Invalid input parameter: value = %p\n", value);
 
                 return -1;
         }
@@ -79,7 +81,7 @@ static int add_path_to_array(const char* value)
                 strcpy(pathFolder[pathCount], value);
                 pathCount++;
         } else {
-                printf("Maximum path limit reached.\n");
+                LOG("Maximum path limit reached.\n");
         }
 
         return 0;
@@ -88,14 +90,14 @@ static int add_path_to_array(const char* value)
 static int init_config(const char* path)
 {
         if (NULL == path) {
-                printf("Invalid input: path = %p\n", path);
+                LOG("Invalid input: path = %p\n", path);
 
                 return -1;
         }
 
         config_file = fopen(path, "r");
         if (config_file == NULL) {
-                printf("Failed to open file %s\n", path);
+                LOG("Failed to open file %s\n", path);
 
                 return -1;
         }
@@ -106,15 +108,13 @@ static int init_config(const char* path)
 char* find_folder_by_value(const char* value)
 {
         if (NULL == value) {
-                printf("Invalid input parameter: value = %p\n", value);
+                LOG("Invalid input parameter: value = %p\n", value);
 
                 return NULL;
         }
 
         for (int i = 0; i < foldersCount; i++) {
                 if (strcmp(value, folders[i]) == 0) {
-                        printf("return folder: %s\n", folders[i]);
-
                         return folders[i];
                 }
         }
@@ -125,7 +125,7 @@ char* find_folder_by_value(const char* value)
 char* find_format_by_value(const char* value)
 {
         if (NULL == value) {
-                printf("Invalid input parameter: value = %p\n", value);
+                LOG("Invalid input parameter: value = %p\n", value);
 
                 return NULL;
         }
@@ -146,7 +146,7 @@ int process_relations(char* command, char* value)
         relations[relations_count].value = find_format_by_value(value);
 
         if (relations[relations_count].folder == NULL || relations[relations_count].value == NULL) {
-                printf("Failed to create relations\n");
+                LOG("Failed to create relations\n");
 
                 relations[relations_count].folder = NULL;
                 relations[relations_count].value = NULL;
@@ -162,21 +162,19 @@ int process_relations(char* command, char* value)
 static int process_command(char* command, char* value)
 {
         if (NULL == command || NULL == value) {
-                printf("Invalid input. command = %p, value = %p\n", command, value);
+                LOG("Invalid input. command = %p, value = %p\n", command, value);
 
                 return -1;
         }
 
         if (strcmp(command, SETPATH_COMMAND) == 0) {
-                printf("Add path %s\n", value);
-
                 add_path_to_array(value);
         } else if (strcmp(command, SETFOLDER_COMMAND) == 0) {
                 add_folder_to_array(value);
         } else if (strcmp(command, SETFORMAT_COMMAND) == 0) {
                 add_format_to_array(value);
         } else if (0 != process_relations(command, value)) {
-                printf("Unexpected command\n");
+                LOG("Unexpected command\n");
         }
 
         return 0;
@@ -204,15 +202,13 @@ static int parse_config()
                 }
 
                 if (command != NULL && value != NULL) {
-                        printf("Command: %s, Value: %s\n", command, value);
-
                         ret = process_command(command, value);
                         if (0 != ret) {
-                                printf("Failed to parse command: ret = %d\n", ret);
+                                LOG("Failed to parse command: ret = %d\n", ret);
                         }
 
                 } else {
-                        printf("Invalid line format: %s\n", line);
+                        LOG("Invalid line format: %s\n", line);
                 }
         }
 
@@ -225,14 +221,14 @@ int start_application()
 
         ret = init_config(CONFIG_PATH);
         if (0 != ret) {
-                printf("Failed to initialization config. ret = %d\n", ret);
+                LOG("Failed to initialization config. ret = %d\n", ret);
 
                 return -1;
         }
 
         ret = parse_config();
         if (0 != ret) {
-                printf("Failed to parse config file\n");
+                LOG("Failed to parse config file\n");
         }
 
         fclose(config_file);
