@@ -12,11 +12,14 @@
 
 #define DEFAULT_PERIOD  300
 
+#define TIMEOUT_DEFAULT_SEC 120
+
 #define CONFIG_PATH "config"
 
 #define SETPATH_COMMAND      "setpath"
 #define SETFOLDER_COMMAND    "setfolder"
 #define SETFORMAT_COMMAND    "setformat"
+#define SETPERIODSEC_COMMAND "setperiod"
 
 typedef struct {
     char* folder;

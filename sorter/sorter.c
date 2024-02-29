@@ -33,6 +33,8 @@ int relations_count = 0;
 
 static FILE* config_file = NULL;
 
+int timeout_sec = TIMEOUT_DEFAULT_SEC;
+
 static int add_folder_to_array(const char* value)
 {
         if (NULL == value) {
@@ -173,6 +175,8 @@ static int process_command(char* command, char* value)
                 add_folder_to_array(value);
         } else if (strcmp(command, SETFORMAT_COMMAND) == 0) {
                 add_format_to_array(value);
+        } else if (strcmp(command, SETPERIODSEC_COMMAND) == 0) {
+                timeout_sec = strtol(value,NULL, 10);
         } else if (0 != process_relations(command, value)) {
                 LOG("Unexpected command\n");
         }
@@ -242,7 +246,7 @@ int start_application()
         while (1) {
         process_files();
 
-        wait_timeout(4);
+        wait_timeout(timeout_sec);
 
         }
 
