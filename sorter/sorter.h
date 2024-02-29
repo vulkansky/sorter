@@ -5,18 +5,18 @@
 #define MAX_BUFFER_NUM  257
 
 
-#define MAX_FOLDERS 100
-#define MAX_FORMATS 100
-#define MAX_RELATIONS 100
-#define MAX_PATH 100
+#define MAX_FOLDERS     100
+#define MAX_FORMATS     100
+#define MAX_RELATIONS   100
+#define MAX_PATH        100
 
-#define DEFAULT_PERIOD 300
+#define DEFAULT_PERIOD  300
 
 #define CONFIG_PATH "config"
 
-#define SETPATH_COMMAND "setpath"
-#define SETFOLDER_COMMAND "setfolder"
-#define SETFORMAT_COMMAND "setformat"
+#define SETPATH_COMMAND      "setpath"
+#define SETFOLDER_COMMAND    "setfolder"
+#define SETFORMAT_COMMAND    "setformat"
 
 typedef struct {
     char* folder;
